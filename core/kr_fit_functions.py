@@ -107,7 +107,8 @@ def lifetimes_in_TRange(kre : KrEvent,
     return kfs
 
 
-def s12_time_profile(krdst, Tnbins, Trange, timeStamps, figsize=(8,8)):
+def s12_time_profile(krdst, Tnbins, Trange, timeStamps,
+                     s2lim=(8e+3, 1e+4), s1lim=(10,11), figsize=(8,8)):
 
     xfmt = md.DateFormatter('%d-%m %H:%M')
     fig = plt.figure(figsize=figsize)
@@ -121,6 +122,7 @@ def s12_time_profile(krdst, Tnbins, Trange, timeStamps, figsize=(8,8)):
     plt.errorbar(timeStamps, y, yu, fmt="kp", ms=7, lw=3)
     plt.xlabel('date')
     plt.ylabel('S2 (pes)')
+    plt.ylim(s2lim)
     plt.xticks( rotation=25 )
 
     x, y, yu = fitf.profileX(krdst.T, krdst.S1, Tnbins, Trange)
@@ -132,6 +134,7 @@ def s12_time_profile(krdst, Tnbins, Trange, timeStamps, figsize=(8,8)):
     plt.errorbar(timeStamps, y, yu, fmt="kp", ms=7, lw=3)
     plt.xlabel('date')
     plt.ylabel('S1 (pes)')
+    plt.ylim(s1lim)
     plt.xticks( rotation=25 )
     plt.tight_layout()
 
@@ -170,7 +173,7 @@ def lifetime_in_XYRange(kre : KrEvent,
                         krb : KrBins,
                         krr : KrRanges,
                         xyr : XYRanges)->KrFit:
-    """ Plots lifetime fitted to a range of XY values"""
+    """ Fits lifetime to a range of XY values"""
 
     # select data in region defined by xyr
     kre_xy = select_in_XYRange(kre, xyr)

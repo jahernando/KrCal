@@ -75,18 +75,67 @@ def plot_s2_vs_z(kdst, krBins, figsize=(14,10)):
     labels("Z (mm)", "E (pes)", f" hard core Z")
     plt.tight_layout()
 
-def plot_lifetime_T(kfs, timeStamps):
+
+def plot_s1_vs_z(kdst, krBins, figsize=(14,10)):
+    fig = plt.figure(figsize=figsize)
+    fig.add_subplot(2, 2, 1)
+    nevt, *_  = plt.hist2d(kdst.full.Z, kdst.full.S1, (krBins.Z, krBins.S1))
+    plt.colorbar().set_label("Number of events")
+    labels("Z (mm)", "S1 (pes)", f"full S1 vs Z")
+
+    fig.add_subplot(2, 2, 2)
+    nevt, *_  = plt.hist2d(kdst.fid.Z, kdst.fid.S1, (krBins.Z, krBins.S1))
+    plt.colorbar().set_label("Number of events")
+    labels("Z (mm)", "S1 (pes)", f"fid S1 vs Z")
+
+    fig.add_subplot(2, 2, 3)
+    nevt, *_  = plt.hist2d(kdst.core.Z, kdst.core.S1, (krBins.Z, krBins.S1))
+    plt.colorbar().set_label("core Number of events")
+    labels("Z (mm)", "S1 (pes)", f"S1 vs Z")
+
+    fig.add_subplot(2, 2, 4)
+    nevt, *_  = plt.hist2d(kdst.hcore.Z, kdst.hcore.S1, (krBins.Z, krBins.S1))
+    plt.colorbar().set_label("hard core Number of events")
+    labels("Z (mm)", "S1 (pes)", f"S1 vs Z")
+    plt.tight_layout()
+
+def plot_s2_vs_s1(kdst, krBins, figsize=(14,10)):
+    fig = plt.figure(figsize=figsize)
+    fig.add_subplot(2, 2, 1)
+    nevt, *_  = plt.hist2d(kdst.full.S1, kdst.full.E, (krBins.S1, krBins.E))
+    plt.colorbar().set_label("Number of events")
+    labels("S1 (pes)", "S2 (pes)", f"full S2 vs S1")
+
+    fig.add_subplot(2, 2, 2)
+    nevt, *_  = plt.hist2d(kdst.fid.S1, kdst.fid.E, (krBins.S1, krBins.E))
+    plt.colorbar().set_label("Number of events")
+    labels("S1 (pes)", "S2 (pes)", f"fid S2 vs S1")
+    fig.add_subplot(2, 2, 3)
+
+    nevt, *_  = plt.hist2d(kdst.core.S1, kdst.core.E, (krBins.S1, krBins.E))
+    plt.colorbar().set_label("core Number of events")
+    labels("S1 (pes)", "S2 (pes)", f"core S2 vs S1")
+    fig.add_subplot(2, 2, 4)
+
+    nevt, *_  = plt.hist2d(kdst.hcore.S1, kdst.hcore.E, (krBins.S1, krBins.E))
+    plt.colorbar().set_label("hard core Number of events")
+    labels("S1 (pes)", "S2 (pes)", f"hard core S2 vs S1")
+    plt.tight_layout()
+
+
+def plot_lifetime_T(kfs, timeStamps, ltlim=(2000, 3000),  figsize=(12,6)):
     ez0s = [kf.par[0] for kf in kfs]
     lts = [np.abs(kf.par[1]) for kf in kfs]
     u_ez0s = [kf.err[0] for kf in kfs]
     u_lts = [kf.err[1] for kf in kfs]
-    plt.figure()
+    plt.figure(figsize=figsize)
     ax=plt.gca()
     xfmt = md.DateFormatter('%d-%m %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
     plt.errorbar(timeStamps, lts, u_lts, fmt="kp", ms=7, lw=3)
     plt.xlabel('date')
     plt.ylabel('Lifetime (mus)')
+    plt.ylim(ltlim)
     plt.xticks( rotation=25 )
 
 def display_lifetime_maps(Escale : Measurement,
