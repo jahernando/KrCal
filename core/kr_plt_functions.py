@@ -191,3 +191,66 @@ def display_lifetime_maps(Escale : Measurement,
     labels("X (mm)", "Y (mm)", "Relative lifetime uncertainty")
 
     plt.tight_layout()
+
+
+def double_hist(h1, h2, binning, label0="Original", label1="Filtered", **kwargs):
+    plt.hist(h1, binning, label=label0, alpha=0.5, color="g", **kwargs)
+    plt.hist(h2, binning, label=label1, alpha=0.5, color="m", **kwargs)
+    plt.legend()
+
+def dst_compare_vars(dst1, dst2):
+    dst    = dst1
+    subdst = dst2
+
+    plt.figure(figsize=(20, 15))
+
+    plt.subplot(3, 4, 1)
+    double_hist(dst.nS2, subdst.nS2, np.linspace(0, 5, 6))
+    plt.yscale("log")
+    labels("Number of S2s", "Entries", "# S2")
+
+    plt.subplot(3, 4, 2)
+    double_hist(dst.S1e, subdst.S1e, np.linspace(0, 50, 51))
+    labels("S1 integral (pes)", "Entries", "S1 energy")
+
+    plt.subplot(3, 4, 3)
+    double_hist(dst.S1w, subdst.S1w, np.linspace(0, 600, 25))
+    labels("S1 width (ns)", "Entries", "S1 width")
+
+    plt.subplot(3, 4, 4)
+    double_hist(dst.S1h, subdst.S1h, np.linspace(0, 15, 31))
+    labels("S1 height (pes)", "Entries", "S1 height")
+
+    plt.subplot(3, 4, 5)
+    double_hist(dst.Nsipm, subdst.Nsipm, np.linspace(0, 100, 51))
+    labels("Number of SiPMs", "Entries", "# SiPMs")
+
+    plt.subplot(3, 4, 6)
+    double_hist(dst.S2e, subdst.S2e, np.linspace(0, 25e3, 101))
+    labels("S2 integral (pes)", "Entries", "S2 energy")
+
+    plt.subplot(3, 4, 7)
+    double_hist(dst.S2w, subdst.S2w, np.linspace(0, 50, 26))
+    labels("S2 width (µs)", "Entries", "S2 width")
+
+    plt.subplot(3, 4, 8)
+    double_hist(dst.S2h, subdst.S2h, np.linspace(0, 1e4, 101))
+    labels("S2 height (pes)", "Entries", "S2 height")
+
+    plt.subplot(3, 4, 9)
+    double_hist(dst.Z, subdst.Z, np.linspace(0, 600, 101))
+    labels("Drift time (µs)", "Entries", "Drift time")
+
+    plt.subplot(3, 4, 10)
+    double_hist(dst.X, subdst.X, np.linspace(-200, 200, 101))
+    labels("X (mm)", "Entries", "X")
+
+    plt.subplot(3, 4, 11)
+    double_hist(dst.Y, subdst.Y, np.linspace(-200, 200, 101))
+    labels("Y (mm)", "Entries", "Y")
+
+    plt.subplot(3, 4, 12)
+    double_hist(dst.S2q, subdst.S2q, np.linspace(0, 5e3, 101))
+    labels("Q (pes)", "Entries", "S2 charge")
+
+    plt.tight_layout()
