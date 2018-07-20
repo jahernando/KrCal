@@ -17,10 +17,18 @@ import invisible_cities.io  .kdst_io       as kdstio
 from table_info import RunInfo
 from table_info import MapInfo
 
-from collections import namedtuple
+from dataclasses import dataclass
 
-XYMap = namedtuple('XYMap',
-                   ('x', 'y', 'values', 'errors'))
+@dataclass
+class XYMap:
+    """XYMap description"""
+    x       : np.array
+    y       : np.array
+    values  : np.array
+    errors  : np.array
+
+#XYMap = namedtuple('XYMap',
+#                   ('x', 'y', 'values', 'errors'))
 
 
 def Ecorrection(correction_filename, S2e, X, Y, Z = None, T = None):
